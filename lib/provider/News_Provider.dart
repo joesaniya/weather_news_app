@@ -10,11 +10,25 @@ class NewsProvider with ChangeNotifier {
   List<NewsArticle> get articles => _articles;
   bool get isLoading => _isLoading;
 
-
   List<String> _selectedCategories = [];
   List<String> get selectedCategories => _selectedCategories;
-
   Future<void> fetchNews(String keyword) async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      _articles = await NewsService().fetchNews(keyword);
+      notifyListeners();
+    } catch (e) {
+      _articles = [];
+      rethrow;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  /* Future<void> fetchNews(String keyword) async {
     _isLoading = true;
     notifyListeners();
 
@@ -34,9 +48,8 @@ class NewsProvider with ChangeNotifier {
       notifyListeners();
     }
   }
-
+*/
   void toggleCategory(String category) {
-  
     _selectedCategories.clear();
     _selectedCategories.add(category);
     notifyListeners();
@@ -52,10 +65,10 @@ class NewsProvider with ChangeNotifier {
   }
 
   Future<void> launchURL(String url) async {
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
-}
 }

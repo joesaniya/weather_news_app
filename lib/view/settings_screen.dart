@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_task/provider/News_Provider.dart';
@@ -18,6 +20,7 @@ class SettingsScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            // Temperature Unit Selector
             Row(
               children: [
                 Text('Temperature Unit: '),
@@ -39,6 +42,8 @@ class SettingsScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 20),
+
+            // News Categories Selector
             Text('Select News Categories:'),
             Wrap(
               children: <String>[
@@ -52,9 +57,12 @@ class SettingsScreen extends StatelessWidget {
                   onTap: () {
                     newsProvider.toggleCategory(category);
 
-                    final keyword = getNewsKeyword(weatherProvider
-                        .weather!.forecasts.first.weatherDescription);
+                    log('Catenews:${newsProvider.selectedCategories}');
+                    /*    final keyword = getNewsKeyword(weatherProvider
+                        .weather!.forecasts.first.weatherDescription);*/
+                    final keyword = newsProvider.selectedCategories[0];
                     newsProvider.fetchNews(keyword);
+                    Navigator.pop(context);
                   },
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
