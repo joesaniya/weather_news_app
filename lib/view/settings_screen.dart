@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:weather_task/provider/News_Provider.dart';
 import 'package:weather_task/provider/Weather_Provider.dart';
 import 'package:weather_task/utils/Weather-Based-News-Filtering.dart';
+import 'package:weather_task/view/widgets/curved_button.dart';
 
 class SettingsScreen extends StatelessWidget {
   @override
@@ -30,6 +31,7 @@ class SettingsScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -103,7 +105,6 @@ class SettingsScreen extends StatelessWidget {
                         .weather!.forecasts.first.weatherDescription);*/
                     final keyword = newsProvider.selectedCategories[0];
                     newsProvider.fetchNews(keyword);
-                    Navigator.pop(context);
                   },
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -131,6 +132,26 @@ class SettingsScreen extends StatelessWidget {
                 );
               }).toList(),
             ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.04,
+            ),
+            CurvedButton(
+              text: 'Apply',
+              onPressed: () {
+                log('Apply clicked');
+                Navigator.pop(context);
+              },
+              color: Colors.blueGrey,
+              height: MediaQuery.of(context).size.height * 0.04,
+              width: MediaQuery.of(context).size.width * 0.5,
+              textStyle: GoogleFonts.metrophobic(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                height: 1,
+                color: Colors.white,
+                decorationStyle: TextDecorationStyle.solid,
+              ),
+            )
           ],
         ),
       ),
