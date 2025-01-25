@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_task/provider/News_Provider.dart';
 import 'package:weather_task/provider/Weather_Provider.dart';
@@ -14,16 +15,35 @@ class SettingsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        backgroundColor: Colors.blueGrey,
+        title: Text(
+          'Settings',
+          style: GoogleFonts.metrophobic(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            height: 1,
+            color: Colors.white,
+            decorationStyle: TextDecorationStyle.solid,
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Temperature Unit Selector
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text('Temperature Unit: '),
+                Text(
+                  'Temperature Unit: ',
+                  style: GoogleFonts.metrophobic(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    height: 1,
+                    color: Colors.black,
+                    decorationStyle: TextDecorationStyle.solid,
+                  ),
+                ),
                 DropdownButton<String>(
                   value: weatherProvider.unit,
                   onChanged: (String? newUnit) {
@@ -35,16 +55,37 @@ class SettingsScreen extends StatelessWidget {
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: Text(value),
+                      child: Text(
+                        value,
+                        style: GoogleFonts.metrophobic(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          height: 1,
+                          color: Colors.black,
+                          decorationStyle: TextDecorationStyle.solid,
+                        ),
+                      ),
                     );
                   }).toList(),
                 ),
               ],
             ),
-            SizedBox(height: 20),
-
-            // News Categories Selector
-            Text('Select News Categories:'),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+            Text(
+              'Select News Categories:',
+              style: GoogleFonts.metrophobic(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                height: 1,
+                color: Colors.black,
+                decorationStyle: TextDecorationStyle.solid,
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
             Wrap(
               children: <String>[
                 'Business',
@@ -69,7 +110,7 @@ class SettingsScreen extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
                       color: newsProvider.selectedCategories.contains(category)
-                          ? Colors.blue
+                          ? Colors.blueGrey
                           : Colors.grey[300],
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -80,6 +121,10 @@ class SettingsScreen extends StatelessWidget {
                             newsProvider.selectedCategories.contains(category)
                                 ? Colors.white
                                 : Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        height: 1,
+                        decorationStyle: TextDecorationStyle.solid,
                       ),
                     ),
                   ),

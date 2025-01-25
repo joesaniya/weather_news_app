@@ -22,7 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _fetchWeatherAndNews();
   }
 
-
   Future<void> _fetchWeatherAndNews() async {
     final weatherProvider =
         Provider.of<WeatherProvider>(context, listen: false);
@@ -49,8 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final weatherProvider = Provider.of<WeatherProvider>(context);
@@ -59,7 +56,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
-        title: Text('Weather & News Aggregator'),
+        title: Text(
+          'Weather & News App',
+          style: GoogleFonts.metrophobic(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            height: 1,
+            color: Colors.white,
+            decorationStyle: TextDecorationStyle.solid,
+          ),
+        ),
         actions: [
           IconButton(
               onPressed: () {
@@ -230,7 +236,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                           ),
                                         );
-                                       
                                       },
                                     ),
                                   ),
