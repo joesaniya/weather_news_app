@@ -11,11 +11,12 @@ class NewsService {
   Future<List<NewsArticle>> fetchNews(String keyword) async {
     log('Keyword weatger:$keyword');
     final url = '$_baseUrl/everything?q=$keyword&apiKey=$_apiKey';
-    log('Url:$url');
+    log('News Url:$url');
     final response = await http.get(Uri.parse(url));
     log('News:$response');
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
+      log('News Data:$data');
       return (data['articles'] as List)
           .map((article) => NewsArticle.fromJson(article))
           .toList();

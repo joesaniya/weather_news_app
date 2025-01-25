@@ -15,11 +15,13 @@ class WeatherProvider with ChangeNotifier {
   String _location = 'Getting location...';
   String city = 'Fetching city...';
 
+  String _unit = 'Celsius';
+  String get unit => _unit;
+
   Future<void> getLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
 
-   
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       _location = 'Location services are disabled';
@@ -27,7 +29,6 @@ class WeatherProvider with ChangeNotifier {
       return;
     }
 
-    
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -38,43 +39,54 @@ class WeatherProvider with ChangeNotifier {
       }
     }
 
-
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
-   
     List<Placemark> placemarks =
         await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemarks[0];
 
     _location =
         'Latitude: ${position.latitude}, Longitude: ${position.longitude}';
-    city = place.locality ?? 'City not found'; 
+    city = place.locality ?? 'City not found';
     log('City: $city');
     notifyListeners();
   }
 
-  Future<void> fetchWeather(String city) async {
+   String selectedUnit = 'Celsius'; 
+  /*void _toggleUnit(String newUnit) {
+    setState(() {
+      selectedUnit = newUnit;
+      _fetchWeatherAndNews(); 
+    });
+  }
+*/
+  Future<void> fetchWeather(String city,String selectedunit) async {
     log('Fetching weather for city: $city');
     if (city.isEmpty) {
       throw Exception("City cannot be empty.");
     }
 
     _isLoading = true;
-    notifyListeners(); 
+    notifyListeners();
 
     try {
-      weather = await WeatherService().fetchWeather(city); 
+      weather = await WeatherService().fetchWeather(city, _unit); 
       log('Weather fetched: $weather');
-      notifyListeners(); 
+      notifyListeners();
     } catch (e) {
-      weather = null; 
+      weather = null;
       log('Error fetching weather: $e');
-      rethrow; 
+      rethrow;
     } finally {
       _isLoading = false;
-      notifyListeners(); 
+      notifyListeners();
     }
+  }
+
+  void setUnit(String newUnit) {
+    _unit = newUnit;
+    notifyListeners();
   }
 
   
